@@ -2,3 +2,7 @@ fastapi
 sqlmodel
 alembic
 uvicorn
+pyJWT
+bcrypt
+passlib
+jwt
