@@ -7,14 +7,14 @@ import models.gems as gems
 router = APIRouter()
 
 
-@router.get("/gems")
+@router.get("/gems", tags=["Gem"])
 async def get_gems(session: Session = Depends(get_session)):
     query = select(gems.Gem)
     result = session.exec(query)
     return result.all()
 
 
-@router.get("/gems/{id}")
+@router.get("/gems/{id}", tags=["Gem"])
 async def get_gem(id: int, session: Session = Depends(get_session)):
     try:
         query = session.get(gems.Gem, id)
@@ -23,7 +23,7 @@ async def get_gem(id: int, session: Session = Depends(get_session)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@router.post("/gems", response_model=gems.GemOut)
+@router.post("/gems", response_model=gems.GemOut, tags=["Gem"])
 async def add_gem(gem: gems.GemCreate, session: Session = Depends(get_session)):
     new_gem = gems.Gem(**gem.dict())
     session.add(new_gem)
@@ -33,7 +33,7 @@ async def add_gem(gem: gems.GemCreate, session: Session = Depends(get_session)):
     return new_gem
 
 
-@router.patch("/gems{id}", response_model=gems.GemOut)
+@router.patch("/gems{id}", response_model=gems.GemOut, tags=["Gem"])
 async def update_gem(id: int, gem: gems.GemUpdate, session: Session = Depends(get_session)):
     try:
         query = session.get(gems.Gem, id)
@@ -48,7 +48,7 @@ async def update_gem(id: int, gem: gems.GemUpdate, session: Session = Depends(ge
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@router.delete("/gems/{id}")
+@router.delete("/gems/{id}", tags=["Gem"])
 async def delete_gem(id: int, session: Session = Depends(get_session)):
     try:
         query = session.get(gems.Gem, id)
